@@ -1,0 +1,54 @@
+import React from 'react';
+import styled from 'styled-components';
+import logoImg from '../image/logo.svg';
+import SignLogo from '../image/sign.svg';
+
+const NavBarStyled = styled.header`
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100vw;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #299B01;
+    color: white;
+    `;
+
+const Logo = styled.div`
+    display: flex;
+    align-items: center;
+    `;
+
+const H1 = styled.h1`
+    font-size: 24px;
+    margin-left: 15px;
+    `;
+
+const ImgLogo = styled.img`
+    width: 50px;
+    `;
+
+const Login = styled.button`
+    display: flex;
+    width: 60px;
+    height: 60px;
+    text-decoration: none;
+    background-color: transparent;
+    color: white;
+    display: block;
+    border-radius: 12px;
+    `;
+
+export const NavBar = () => (
+    <NavBarStyled>
+        <Logo>
+            <ImgLogo src={logoImg} alt="logo"/>
+            <H1>MrDonald's</H1>
+        </Logo>
+        <Login><img src={SignLogo} alt="SignLogo"/><p>Enter</p></Login>
+    </NavBarStyled>
+);
