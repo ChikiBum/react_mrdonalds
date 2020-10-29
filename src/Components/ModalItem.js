@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ButtonCheckout } from './ButtonCheckout'
 
 const Overlay = styled.div`
     position: fixed;
@@ -15,10 +16,6 @@ const Overlay = styled.div`
 `;
 
 const Modal = styled.div`
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: space-between;
     background-color: #fff;
     width: 600px;
     height: 600px;
@@ -30,28 +27,23 @@ const Banner = styled.div`
     background-image: url(${({img}) => img});
     background-size: cover;
     background-position: center;
-    margin-bottom: 20px;
+  `;
+
+const Content = styled.section`
+    display: flex;
+    flex-direction:column;
+    // align-items: center;
+    height: calc(100% - 200px);
+    justify-content: space-between;
+    padding: 30px;
 `;
 
-const BannerInfo = styled.div`
+const HeaderContent = styled.div`
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-`;
-
-const BannerButton = styled.button`
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 250px;
-    height: 65px;
-    background: #299B01;
-    margin-bottom: 40px;
-    font-size: 21px;
-    color: white;
+    justify-content: space-between;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Pacifico', cursive;
 `;
 
 export const ModalItem = ({ openItem, setOpenItem }) => {
@@ -67,11 +59,13 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
     <Overlay id="overlay" onClick={closeModal}>
         <Modal>
             <Banner img={openItem.img}/>
-            <BannerInfo>
-                <h3>{openItem.name}</h3>
-                <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'UAH', currencyDisplay: 'code'})}</h3>
-            </BannerInfo>
-            <BannerButton>Добавить</BannerButton>
+            <Content>
+                <HeaderContent>
+                    <div>{openItem.name}</div>
+                    <div>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'UAH', currencyDisplay: 'code'})}</div>
+                </HeaderContent>
+                <ButtonCheckout>Добавить</ButtonCheckout>
+            </Content>
         </Modal>
     </Overlay>)
 };
