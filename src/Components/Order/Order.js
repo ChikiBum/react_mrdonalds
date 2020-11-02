@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ButtonCheckout } from './ButtonCheckout';
+import { ButtonCheckout } from '../Style/ButtonCheckout';
+import { useOpenItem } from '../Hooks/useOpenItem';
 import { OrderListItem } from './OrderListItem';
+import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
 
 const OrderStyles = styled.section`
     position: fixed;
@@ -43,22 +45,30 @@ const TotalPrice = styled.span`
     margin-left: 20px;
 `;
 
-export const Order = () =>{
+const EmptyList = styled.p`
+    text-align: center;
+`;
+
+
+export const Order = ({ orders }) =>{
+
+    const total = orders.reduce((result, order) => 
+            totalPriceItems(order) + result, 0); 
+
     return (
         <OrderStyles>
             <OrderTitle>Ваш заказ:</OrderTitle>
             <OrderContent>
-                <OrderList>
-                    <OrderListItem/>
-                    <OrderListItem/>
-                    <OrderListItem/>
-                    <OrderListItem/>
-                </OrderList>
+               {orders.length ? 
+               <OrderList>
+                   {orders.map(order => <OrderListItem order={order}/>)}
+                </OrderList> :
+                <EmptyList>Список заказов пуст</EmptyList>}
             </OrderContent>
             <Total>
                 <span>Итого</span>
                 <span>550 </span>
-                <TotalPrice> ГРН</TotalPrice>
+                <TotalPrice>{formatCurrency(total)}</TotalPrice>
             </Total>
             <ButtonCheckout>Оформить</ButtonCheckout>
         </OrderStyles>

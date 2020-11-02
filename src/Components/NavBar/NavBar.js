@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import logoImg from '../image/logo.svg';
-import signinImg from '../image/sign.svg';
+import logoImg from '../../image/logo.svg';
+import signinImg from '../../image/sign.svg';
 
 const NavBarStyled = styled.header`
     position: fixed;
     top: 0;
     left: 0;
     z-index: 99;
-    width: 100vw;
+    width: 100%;
     height: 80px;
     display: flex;
     justify-content: space-between;

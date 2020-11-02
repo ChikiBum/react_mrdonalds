@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ButtonCheckout } from './ButtonCheckout'
+import { ButtonCheckout } from '../Style/ButtonCheckout';
+import { CountItem } from './CountItem';
+import { useCount } from '../Hooks/useCount';
+import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
 
 const Overlay = styled.div`
     position: fixed;
@@ -46,15 +49,33 @@ const HeaderContent = styled.div`
     font-family: 'Pacifico', cursive;
 `;
 
-export const ModalItem = ({ openItem, setOpenItem }) => {
+const TotalPriceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
 
-    function closeModal(e){
+
+export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+
+    const counter = useCount();
+
+    const closeModal = e => {
         if (e.target.id === 'overlay'){
             setOpenItem(null);
         }
     }
-    
-    if (!openItem) return null;
+
+    const order = {
+        ...openItem,
+        count: counter.count
+    }
+
+    const addToOrder = () => {
+        setOrders([...orders, order]);
+        setOpenItem(null);
+        console.log('addToOrder foo')
+    }
+      
     return(
     <Overlay id="overlay" onClick={closeModal}>
         <Modal>
@@ -62,9 +83,14 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
             <Content>
                 <HeaderContent>
                     <div>{openItem.name}</div>
-                    <div>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'UAH', currencyDisplay: 'code'})}</div>
+                    <div>{formatCurrency(openItem.price)}</div>
                 </HeaderContent>
-                <ButtonCheckout>Добавить</ButtonCheckout>
+                <CountItem {...counter}/>
+                <TotalPriceItem>
+                    <span>Цена:</span>
+                    <span>{formatCurrency(totalPriceItems(order))}</span>
+                </TotalPriceItem>
+                <ButtonCheckout onClick={addToOrder}>Добавить</ButtonCheckout>
             </Content>
         </Modal>
     </Overlay>)

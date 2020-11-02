@@ -1,3 +1,5 @@
 [1027/214512.942:ERROR:directory_reader_win.cc(43)] FindFirstFile: Системе не удается найти указанный путь. (0x3)
 [1028/221627.662:ERROR:directory_reader_win.cc(43)] FindFirstFile: Системе не удается найти указанный путь. (0x3)
 [1029/215201.196:ERROR:directory_reader_win.cc(43)] FindFirstFile: Системе не удается найти указанный путь. (0x3)
+[1101/173948.027:ERROR:directory_reader_win.cc(43)] FindFirstFile: Системе не удается найти указанный путь. (0x3)
+[1102/215433.081:ERROR:directory_reader_win.cc(43)] FindFirstFile: Системе не удается найти указанный путь. (0x3)
