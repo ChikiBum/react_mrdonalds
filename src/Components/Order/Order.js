@@ -11,7 +11,7 @@ const OrderStyles = styled.section`
     top: 80px;
     left: 0;
     background: #fff;
-    min-width: 380px;
+    width: 380px;
     height: calc(100% - 80px);
     box-shadow: 13px 4px 15px rgba(0, 0, 0, .45);
     padding: 20px;

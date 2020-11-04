@@ -6,19 +6,18 @@ const getTopping = toppings => toppings.map(item => ({
 }));
 
 export function useToppings(openItem) {
-    console.log(openItem.toppings.length)
-   
-        const [toppings, setTopping] = useState(getTopping(openItem.toppings));
+    const readyTopping = openItem.toppings ? getTopping(openItem.toppings) : [];
+    const [toppings, setTopping] = useState(readyTopping);
     
-        const checkToppings = index => {
-            setTopping(toppings.map((item, i) => {
-                const newItem = {...item};
-                if (index === i) {
-                    newItem.checked = !newItem.checked;
-                }
-                return newItem;
-            }));
-        }
-   
+    const checkToppings = index => {
+        setTopping(toppings.map((item, i) => {
+            const newItem = {...item};
+            if (index === i) {
+                newItem.checked = !newItem.checked;
+            }
+            return newItem;
+        }));
+    }
+
     return {toppings, checkToppings};
 };
