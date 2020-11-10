@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ButtonCheckout } from '../Style/ButtonCheckout';
 import { OrderListItem } from './OrderListItem';
-import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
+import { totalPriceItems, formatCurrency, projection } from '../Functions/secondaryFunctions';
 
 const OrderStyles = styled.section`
     position: fixed;
@@ -48,8 +48,34 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
+const rulesData = { 
+    itemName: ['name'],
+    price: ['price'],
+    count: ['count'],
+    topping: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name),
+        arr => arr.length ? arr : 'no topping'],
+    choice: ['choice', item => item ? item : 'no choices']
+}
 
-export const Order = ({ orders }) =>{
+
+export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn, firebaseDatabase }) =>{
+    const dataBase = firebaseDatabase();
+
+    const sendOrder = () => {
+        const newOrder = orders.map(projection(rulesData));
+        dataBase.ref('orders').push().set({
+            nameClient: authentification.displayName,
+            email: authentification.email,
+            order: newOrder
+        });
+        setOrders([]);
+    };
+
+    const deleteItem = index => {
+        const newOrders = orders.filter((item, i) => index !== i);
+        newOrders.splice(index, 1);
+        setOrders(newOrders);
+    };
 
     const total = orders.reduce((result, order) => 
         totalPriceItems(order) + result, 0); 
@@ -64,7 +90,13 @@ export const Order = ({ orders }) =>{
             <OrderContent>
                {orders.length ? 
                <OrderList>
-                   {orders.map(order => <OrderListItem order={order}/>)}
+                   {orders.map((order, index) => <OrderListItem 
+                        key={index}
+                        order={order}
+                        deleteItem={deleteItem}
+                        index={index}
+                        setOpenItem={setOpenItem}
+                    />)}
                 </OrderList> :
                 <EmptyList>Список заказов пуст</EmptyList>}
             </OrderContent>
@@ -73,7 +105,13 @@ export const Order = ({ orders }) =>{
                 <span>{totalCounter}</span>
                 <TotalPrice>{formatCurrency(total)}</TotalPrice>
             </Total>
-            <ButtonCheckout>Оформить</ButtonCheckout>
+            <ButtonCheckout onClick={() => {
+                if (authentification){
+                    sendOrder();
+                } else {
+                    logIn();
+                }
+            }}>Оформить</ButtonCheckout>
         </OrderStyles>
     )
 };

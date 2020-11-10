@@ -49,7 +49,10 @@ export const ListItem = ({ itemList, setOpenItem }) => (
             <Item 
                 key={item.id}
                 img={item.img}
-                onClick={() => setOpenItem(item)}>
+                onClick={
+                    () => setOpenItem(item)
+                    // ,() => setTitle()
+                }>
                 <p>{item.name}</p>
                 <p>{formatCurrency(item.price)}</p>
             </Item>

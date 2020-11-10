@@ -9,3 +9,12 @@ export const totalPriceItems = order => {
 
 export const formatCurrency = value => value.toLocaleString('us-US', 
 {style: 'currency', currency: 'USD', currencyDisplay: 'code'});
+
+export const projection = rules => {
+    const keys = Object.keys(rules);
+    return obj => keys.reduce((newObj, key) => {
+        newObj[key] = rules[key].reduce((value, fn, i) => (i ? fn(value) : obj[fn]), null);
+        return newObj;
+    }, {})
+};
+
